@@ -81,4 +81,8 @@ jobs:
           terraform fmt /
           terraform init -backend-config=bluewhite-backend.conf
           terraform apply -var-file="bluewhite.tfvars" -auto-approve
+          
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
 
