@@ -6,7 +6,7 @@ data "aws_region" "current" {}
 
 module "ecr" {
 
-  source = "../../modules/bluewhite/ecr"
+  source = "../../../modules/bluewhite/ecr"
 
   ecr_repository_name  = var.ecr_repository_name
   scan_on_push         = var.scan_on_push
