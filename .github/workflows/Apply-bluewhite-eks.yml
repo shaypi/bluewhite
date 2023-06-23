@@ -1,0 +1,86 @@
+name: Apply bluewhite eks
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: eu-west-1
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install third-party dependencies
+        run: |
+          apt-get update && apt-get install -y zip curl
+
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
+          # Optional: Update package repositories and install additional packages if needed
+          sudo apt-get update
+          sudo apt-get dist-upgrade -y
+          sudo apt-get install -y less
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+        with:
+          terraform_version: 1.4.4
+
+      - name: Configure AWS credentials
+        run: |
+          mkdir ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
+          echo "[default]" > ~/.aws/config
+          echo "region=${AWS_REGION}" >> ~/.aws/config
+
+      - name: Configure backend
+        working-directory: terraform/environments/test/bluewhite
+        run: |
+          cat <<EOF > bluewhite-backend.conf
+          encrypt = true
+          bucket = "bluewhite-global-state"
+          key = "env/bluewhite/terraform.tfstate"
+          region = "${AWS_REGION}"
+          access_key = "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          secret_key = "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          EOF
+      
+      - name: Initialize Terraform
+        working-directory: terraform/environments/test/bluewhite
+        run: terraform init -backend-config=bluewhite-backend.conf
+        
+      - name: Terraform Plan
+        working-directory: terraform/environments/test/bluewhite
+        run: |
+          terraform validate /
+          terraform fmt /
+          terraform init -backend-config=bluewhite-backend.conf
+          terraform plan -var-file="bluewhite.tfvars"
+        id: plan
+        
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+      
+      - name: Terraform Apply
+        working-directory: terraform/environments/test/bluewhite
+        run: |
+          terraform validate /
+          terraform fmt /
+          terraform init -backend-config=bluewhite-backend.conf
+          terraform apply -var-file="bluewhite.tfvars" -auto-approve
+
