@@ -1,0 +1,41 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeTags",
+                "autoscaling:DescribeInstances",
+                "autoscaling:SetDesiredCapacity",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "ec2:DescribeLaunchTemplateVersions",
+                "ec2:DescribeInstanceTypes",
+                "ec2:DescribeRegions",
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:CompleteLayerUpload",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:InitiateLayerUpload",
+                "ecr:PutImage",
+                "ecr:UploadLayerPart",
+                "ecr:GetAuthorizationToken",
+                "codeartifact:GetAuthorizationToken",
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucketMultipartUploads",
+                "s3:ListBucket",
+                "s3:ListAllMyBuckets",
+                "s3:GetBucketLocation",
+                "s3:ListMultipartUploadParts",
+                "s3:AbortMultipartUpload",
+                "s3:DeleteObject",
+                "s3:ListBucket",
+                "kms:GenerateDataKey"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
