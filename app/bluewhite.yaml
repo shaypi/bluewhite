@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: hostname-app-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: hostname-app
+  template:
+    metadata:
+      labels:
+        app: hostname-app
+    spec:
+      containers:
+        - name: hostname-app
+          image: your-docker-repository/hostname-app:latest
+          ports:
+            - containerPort: 5000
+  # nodeSelector: 
+  #   <add your node selector labels here if necessary>
