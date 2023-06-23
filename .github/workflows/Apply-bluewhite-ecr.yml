@@ -3,6 +3,15 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'terraform/environments/test/ecr/**'
+      - 'terraform/modules/bluewhite/ecr/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'terraform/environments/test/ecr/**'
+      - 'terraform/modules/bluewhite/ecr/**'
   workflow_dispatch:
 
 env:

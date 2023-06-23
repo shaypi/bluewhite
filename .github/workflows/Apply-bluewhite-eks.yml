@@ -3,6 +3,19 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'terraform/environments/test/sg/**'
+      - 'terraform/environments/test/eks/**'
+      - 'terraform/environments/test/aws-vpc/**'
+      - 'terraform/environments/test/bluewhite/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'terraform/environments/test/sg/**'
+      - 'terraform/environments/test/eks/**'
+      - 'terraform/environments/test/aws-vpc/**'
+      - 'terraform/environments/test/bluewhite/**'
   workflow_dispatch:
 
 env:
