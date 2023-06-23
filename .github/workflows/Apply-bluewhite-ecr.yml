@@ -21,6 +21,7 @@ on:
           - apply
           - destroy
         required: true
+        default: 'apply'
 
 env:
   AWS_REGION: eu-west-1
