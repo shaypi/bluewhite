@@ -70,7 +70,7 @@ variable "kms_key" {
 
 variable "ecr_repository_name" {
   description = "Name of the repositories."
-  default     = "bluewhite"
+  default     = ["bluewhite", "test"]
 }
 
 variable "secret_string" {
