@@ -13,6 +13,14 @@ on:
       - 'terraform/environments/test/ecr/**'
       - 'terraform/modules/bluewhite/ecr/**'
   workflow_dispatch:
+    inputs:
+      condition:
+        type: choice
+        description: 'Apply or Destroy'
+        options:
+          - apply
+          - destroy
+        required: true
 
 env:
   AWS_REGION: eu-west-1
@@ -98,7 +106,7 @@ jobs:
           terraform validate /
           terraform fmt /
           terraform init -backend-config=ecr-backend.conf
-          terraform apply -var-file="main.tfvars" -auto-approve
+          terraform ${{ github.event.inputs.condition }} -var-file="main.tfvars" -auto-approve
           
       - name: Setup tmate session
         if: ${{ failure() }}

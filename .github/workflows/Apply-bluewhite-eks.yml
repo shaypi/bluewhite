@@ -17,6 +17,14 @@ on:
       - 'terraform/environments/test/aws-vpc/**'
       - 'terraform/environments/test/bluewhite/**'
   workflow_dispatch:
+    inputs:
+      condition:
+        type: choice
+        description: 'Apply or Destroy'
+        options:
+          - apply
+          - destroy
+        required: true
 
 env:
   AWS_REGION: eu-west-1
@@ -102,7 +110,7 @@ jobs:
           terraform validate /
           terraform fmt /
           terraform init -backend-config=bluewhite-backend.conf
-          terraform apply -var-file="bluewhite.tfvars" -auto-approve
+          terraform ${{ github.event.inputs.condition }} -var-file="bluewhite.tfvars" -auto-approve
           
       - name: Setup tmate session
         if: ${{ failure() }}
