@@ -20,7 +20,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
-  terraform:
+  buildImage:
     runs-on: ubuntu-latest
     container:
       image: ubuntu:20.04
@@ -68,6 +68,8 @@ jobs:
           docker build -t $App app/ 
           docker tag $App $ECR_REGISTRY/$ECR_REPOSITORY:$SHA
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$SHA
+          docker tag $App $ECR_REGISTRY/$ECR_REPOSITORY:$App-${{ github.run_id }}
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$App-${{ github.run_id }}
 
       - name: Setup tmate session
         if: ${{ failure() }}
