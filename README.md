@@ -3,7 +3,23 @@
 [![CI CD](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-CICD.yml/badge.svg)](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-CICD.yml)
 [![Apply/Destroy bluewhite ecr](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-ecr.yml/badge.svg)](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-ecr.yml)
 
-The directory stracture:
+# Getting Started
+
+## Deployment Process
+
+The deployment process for the Bluewhite project involves several GitHub Actions runners:
+
+- [Bluewhite-eks.yml](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-eks.yml): This runner creates the EKS VPC and IAM stack.
+- [Bluewhite-ecr.yml](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-ecr.yml): This runner sets up the ECR stack for future use.
+- [Bluewhite-CICD.yml](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-CICD.yml): This runner handles image creation, pushes it to the ECR, and updates the Kubernetes deployment with the latest image.
+
+Once the deployment is successful, you need to update the label `env=bluewhite` on two nodes. Use the following command:
+
+```bash
+kubectl label nodes ip-10-0-17-50.eu-west-1.compute.internal ip-10-0-17-7.eu-west-1.compute.internal env=bluewhite
+```
+
+The directory structure:
 ```
 .
 |-- README.md
