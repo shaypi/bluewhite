@@ -84,10 +84,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install third-party dependencies
-        run: |
-          apt-get install -y zip curl
-
       - name: Configure AWS credentials
         run: |
           mkdir ~/.aws
@@ -96,9 +92,6 @@ jobs:
           echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
           echo "[default]" > ~/.aws/config
           echo "region=${AWS_REGION}" >> ~/.aws/config
-
-      - name: Connect to the cluster
-        run: aws eks --region eu-west-1 update-kubeconfig --name bluewhite
       
       - name: Install kubectl 
         run: |
@@ -113,6 +106,9 @@ jobs:
           chmod 700 get_helm.sh
           ./get_helm.sh
           helm version
+          
+      - name: Connect to the cluster
+        run: aws eks --region eu-west-1 update-kubeconfig --name bluewhite
 
       - name: Add the EKS repository to Helm and install AWS LB Controller
         run: |
