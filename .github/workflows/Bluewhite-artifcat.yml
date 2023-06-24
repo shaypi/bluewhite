@@ -88,6 +88,15 @@ jobs:
         run: |
           apt-get update
           apt-get install -y zip curl
+      
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          ./aws/install
+          apt-get update
+          apt-get dist-upgrade -y
+          apt-get install -y less
           
       - name: Configure AWS credentials
         run: |
