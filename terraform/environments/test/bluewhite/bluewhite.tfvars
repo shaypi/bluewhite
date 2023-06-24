@@ -18,7 +18,7 @@ eks_cluster_name    = "bluewhite"
 #EKS
 cluster_name            = "bluewhite"
 k8s_version             = "1.27"
-node_instance_type      = "t2.small"
+node_instance_type      = "t3.small"
 aws_iam                 = "eks-cluster-autoscaler"
 desired_capacity        = 3
 max_size                = 5

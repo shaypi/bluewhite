@@ -74,3 +74,59 @@ jobs:
       - name: Setup tmate session
         if: ${{ failure() }}
         uses: mxschmitt/action-tmate@v3
+
+  CD:
+    runs-on: ubuntu-latest
+    needs: buildImage
+    container:
+      image: ubuntu:20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install third-party dependencies
+        run: |
+          apt-get install -y zip curl
+
+      - name: Configure AWS credentials
+        run: |
+          mkdir ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
+          echo "[default]" > ~/.aws/config
+          echo "region=${AWS_REGION}" >> ~/.aws/config
+
+      - name: Connect to the cluster
+        run: aws eks --region eu-west-1 update-kubeconfig --name bluewhite
+      
+      - name: Install kubectl 
+        run: |
+          curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x ./kubectl
+          mv ./kubectl /usr/local/bin/kubectl
+          kubectl version --client --output=yaml
+      
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+          helm version
+
+      - name: Add the EKS repository to Helm and install AWS LB Controller
+        run: |
+          helm repo add eks https://aws.github.io/eks-charts
+          helm repo update
+          helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --namespace kube-system --set clusterName=bluewhite --set serviceAccount.create=false --set serviceAccount.name=cluster-autoscaler
+
+      - name: Create namespace
+        run : kubectl create ns bluewhite --dry-run=client -o yaml | kubectl apply -f -
+      
+      - name: Deploy bluewhite app
+        working-directory: app
+        run: kubectl apply -f bluewhite.yaml
+
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
