@@ -118,14 +118,16 @@ jobs:
         run: |
           helm repo add eks https://aws.github.io/eks-charts
           helm repo update
-          helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=bluewhite -n kube-system
+          helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller --namespace kube-system --set clusterName=bluewhite --set serviceAccount.create=false --set serviceAccount.name=cluster-autoscaler
 
       - name: Create namespace
         run : kubectl create ns bluewhite --dry-run=client -o yaml | kubectl apply -f -
       
       - name: Deploy bluewhite app
         working-directory: app
-        run: kubectl apply -f bluewhite.yaml
+        run: |
+          kubectl apply -f bluewhite.yaml
+          kubectl apply -f sa.yaml
 
       - name: Setup tmate session
         if: ${{ failure() }}
