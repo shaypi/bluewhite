@@ -14,7 +14,7 @@ spec:
         app: bluewhite
     spec:
       nodeSelector:
-        your-node-selector-key: your-node-selector-value
+        env: bluewhite
       containers:
         - name: bluewhite
           image: 160213321344.dkr.ecr.eu-west-1.amazonaws.com/bluewhite:bluewhite-5361134170
@@ -61,6 +61,7 @@ metadata:
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
   labels:
     app.kubernetes.io/name: bluewhite
+    app: bluewhite
 spec:
   ingressClassName: alb
   rules:

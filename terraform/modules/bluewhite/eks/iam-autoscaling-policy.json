@@ -5,6 +5,7 @@
             "Effect": "Allow",
             "Action": [
                 "autoscaling:DescribeAutoScalingGroups",
+                "elasticloadbalancing:DescribeLoadBalancers",
                 "autoscaling:DescribeAutoScalingInstances",
                 "autoscaling:DescribeLaunchConfigurations",
                 "autoscaling:DescribeTags",
