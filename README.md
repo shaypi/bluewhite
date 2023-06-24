@@ -19,7 +19,10 @@ Once the deployment is successful, you need to update the label `env=bluewhite` 
 kubectl label nodes ip-10-0-17-50.eu-west-1.compute.internal ip-10-0-17-7.eu-west-1.compute.internal env=bluewhite
 ```
 
-The directory structure:
+Make sure to replace ip-10-0-17-50.eu-west-1.compute.internal and ip-10-0-17-7.eu-west-1.compute.internal with the actual IP addresses of the nodes you want to label.
+
+## Directory Structure:
+
 ```
 .
 |-- README.md
