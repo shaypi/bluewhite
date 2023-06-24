@@ -86,6 +86,7 @@ jobs:
 
       - name: Install third-party dependencies
         run: |
+          apt-get update
           apt-get install -y zip curl
           
       - name: Configure AWS credentials
