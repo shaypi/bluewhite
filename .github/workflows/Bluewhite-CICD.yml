@@ -1,4 +1,4 @@
-name: Create docker image
+name: CI CD
 on:
   push:
     branches:
@@ -27,6 +27,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: define Runner ID
+        run: |
+          echo "runner id: $GITHUB_RUN_ID"
+          echo "::set-output name=github_runner_id::$GITHUB_RUN_ID"
+        id: id
 
       - name: Install Docker
         run: |
@@ -84,6 +90,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - run: echo ${{ needs.buildImage.outputs.github_runner_id }}
       - name: Install third-party dependencies
         run: |
           apt-get update
@@ -136,9 +143,10 @@ jobs:
       - name: Deploy bluewhite app
         working-directory: app
         run: |
-          kubectl apply -f bluewhite.yaml
+          sed -i "s|160213321344.dkr.ecr.eu-west-1.amazonaws.com/bluewhite:bluewhite-5364552348|160213321344.dkr.ecr.eu-west-1.amazonaws.com/bluewhite:bluewhite-${{ needs.buildImage.outputs.github_runner_id }}|g" bluewhite.yaml
           kubectl apply -f sa.yaml
-
+          kubectl apply -f bluewhite.yaml
+          
       - name: Setup tmate session
         if: ${{ failure() }}
         uses: mxschmitt/action-tmate@v3
