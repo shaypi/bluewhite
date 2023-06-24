@@ -24,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ubuntu:20.04
+    outputs:
+      githubRunnerId: ${{ steps.id.outputs.github_runner_id }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -90,7 +92,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - run: echo ${{ needs.buildImage.outputs.github_runner_id }}
+      - run: echo ${{ needs.buildImage.outputs.githubRunnerId }}
       - name: Install third-party dependencies
         run: |
           apt-get update
@@ -143,7 +145,7 @@ jobs:
       - name: Deploy bluewhite app
         working-directory: app
         run: |
-          sed -i "s|160213321344.dkr.ecr.eu-west-1.amazonaws.com/bluewhite:bluewhite-5364552348|160213321344.dkr.ecr.eu-west-1.amazonaws.com/bluewhite:bluewhite-${{ needs.buildImage.outputs.github_runner_id }}|g" bluewhite.yaml
+          sed -i "s|160213321344.dkr.ecr.eu-west-1.amazonaws.com/bluewhite:bluewhite-5364552348|160213321344.dkr.ecr.eu-west-1.amazonaws.com/bluewhite:bluewhite-${{ needs.buildImage.outputs.githubRunnerId }}|g" bluewhite.yaml
           kubectl apply -f sa.yaml
           kubectl apply -f bluewhite.yaml
           
