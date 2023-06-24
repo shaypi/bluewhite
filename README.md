@@ -1,5 +1,6 @@
 # bluewhite
 The directory stracture:
+```
 .
 |-- README.md
 |-- app
@@ -52,3 +53,4 @@ The directory stracture:
                 |-- main.tf
                 |-- output.tf
                 `-- variables.tf
+```
