@@ -5,9 +5,11 @@ pipeline {
         }
     }
     stages {
-        stage ('Checkout') {
+        stage('Checkout') {
             steps {
-                checkout scm
+                checkout([$class: 'GitSCM',
+                          branches: [[name: '*/main']],
+                          userRemoteConfigs: [[url: 'https://github.com/shaypi/bluewhite']]])
             }
         }
         stage ('Install prerequisites') { 
