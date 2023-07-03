@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Install prerequisites') {
             steps {
-                sh 'pipenv install --pre --dev black'
+                sh 'pip install --pre --dev black'
             }
         }
         stage('Code Formatting') {
