@@ -8,14 +8,19 @@ pipeline {
                           userRemoteConfigs: [[url: 'https://github.com/shaypi/bluewhite']]])
             }
         }
-        stage ('Install prerequisites') { 
-            steps { 
-                sh 'pipenv install --pre --dev black' 
+        stage('Install pipenv') {
+            steps {
+                sh 'pip install --user pipenv'
             }
         }
-        stage ('Code Formatting') { 
-            steps { 
-                sh 'pipenv run black .' 
+        stage('Install prerequisites') {
+            steps {
+                sh 'pipenv install --pre --dev black'
+            }
+        }
+        stage('Code Formatting') {
+            steps {
+                sh 'pipenv run black .'
             }
         }
     }
