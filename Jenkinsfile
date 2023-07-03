@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'python3 -m pip install -r requirements.txt'
+                sh 'cd app && python3 -m pip install -r requirements.txt'
             }
         }
         // stage('Lint') {
