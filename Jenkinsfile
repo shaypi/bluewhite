@@ -1,6 +1,15 @@
-pipeline { 
-    agent any 
+pipeline {
+    agent {
+        docker {
+            image 'ubuntu:20.04'
+        }
+    }
     stages {
+        stage ('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage ('Install prerequisites') { 
             steps { 
                 sh 'pipenv install --pre --dev black' 
