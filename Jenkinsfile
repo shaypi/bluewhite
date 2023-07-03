@@ -14,6 +14,7 @@ pipeline {
                 sh 'apt-get install -y python3 python3-pip'
                 sh 'pip3 install --user pipenv'
                 sh 'pip3 install --upgrade Werkzeug'
+                sh 'pip3 install --upgrade flask werkzeug'
             }
         }
         stage('Install black') {
