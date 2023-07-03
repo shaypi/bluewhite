@@ -1,7 +1,7 @@
 import unittest
 from flask import Flask
 import socket
-
+from urllib.parse import urlsplit
 
 class FlaskAppTest(unittest.TestCase):
 
@@ -17,7 +17,6 @@ class FlaskAppTest(unittest.TestCase):
 
     def tearDown(self):
         pass
-
 
 if __name__ == '__main__':
     unittest.main()
