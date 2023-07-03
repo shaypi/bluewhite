@@ -1,15 +1,6 @@
 pipeline {
-    agent {
-        docker {
-            image 'ubuntu:20.04'
-        }
-    }
+    agent any
     stages {
-        stage ('check docker') { 
-            steps { 
-                sh 'docker --version' 
-            }
-        }
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM',
@@ -27,5 +18,3 @@ pipeline {
                 sh 'pipenv run black .' 
             }
         }
-    }
-}
