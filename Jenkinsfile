@@ -53,7 +53,7 @@ pipeline {
         }
         stage('Docker Login') {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS | docker login -u $DOCKERHUB_REGISTRY --password-stdin'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
         stage('Build, tag, and push image to Docker Hub') {
@@ -67,6 +67,5 @@ pipeline {
                 }
             }
         }
-    }
     }
 }
