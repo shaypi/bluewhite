@@ -15,9 +15,14 @@ pipeline {
                 sh 'pip3 install --user pipenv'
             }
         }
-        stage('Install prerequisites') {
+        stage('Install black') {
             steps {
                 sh 'pip install --pre black'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'python3 -m pip install -r requirements.txt'
             }
         }
         // stage('Lint') {
