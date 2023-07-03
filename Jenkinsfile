@@ -20,6 +20,11 @@ pipeline {
                 sh 'pip install --pre black'
             }
         }
+        stage('Lint') {
+            steps {
+                sh 'black --check .'
+            }
+        }
         stage('Code Formatting') {
             steps {
                 sh 'black .'
