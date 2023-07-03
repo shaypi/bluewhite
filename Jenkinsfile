@@ -8,8 +8,9 @@ pipeline {
                           userRemoteConfigs: [[url: 'https://github.com/shaypi/bluewhite']]])
             }
         }
-        stage('Install pipenv') {
+        stage('Install pip and pipenv') {
             steps {
+                sh 'python3 -m ensurepip --upgrade --default-pip'
                 sh 'pip install --user pipenv'
             }
         }
