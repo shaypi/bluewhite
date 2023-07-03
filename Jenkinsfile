@@ -18,3 +18,5 @@ pipeline {
                 sh 'pipenv run black .' 
             }
         }
+    }
+}
