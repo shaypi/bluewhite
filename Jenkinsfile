@@ -13,6 +13,7 @@ pipeline {
                 sh 'apt-get update'
                 sh 'apt-get install -y python3 python3-pip'
                 sh 'pip3 install --user pipenv'
+                sh 'pip3 install --upgrade Werkzeug'
             }
         }
         stage('Install black') {
