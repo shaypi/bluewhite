@@ -5,7 +5,7 @@ pipeline {
         }
     }
     stages {
-        stage ('Install prerequisites') { 
+        stage ('check docker') { 
             steps { 
                 sh 'docker --version' 
             }
