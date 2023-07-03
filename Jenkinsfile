@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Unit Test') {
             steps {
-                sh 'cd app && python3 -m unittest your_test_script.py'
+                sh 'cd app && python3 -m unittest app.py'
             }
         }
         stage('Build') {
