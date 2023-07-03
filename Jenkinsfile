@@ -19,38 +19,6 @@ pipeline {
         }
         stage ('Code Formatting') { 
             steps { 
-                echo 'Running build phase.' 
+                sh 'pipenv run black .' 
             }
         }
-        stage ('Lint') { 
-            steps { 
-                echo 'Running build phase.' 
-            }
-        }
-        stage ('Sonarqube') { 
-            steps { 
-                echo 'Running build phase.' 
-            }
-        }
-        stage ('Build') { 
-            steps { 
-                echo 'Running build phase.' 
-            }
-        }
-        stage ('UnitTest') { 
-            steps { 
-                echo 'Running build phase.' 
-            }    
-        }
-        stage ('Build Image') { 
-            steps { 
-                echo 'Running build phase.' 
-            }
-        }
-        stage ('Container Validation') { 
-            steps { 
-                echo 'Running build phase.' 
-            }
-        }
-    }
-}
