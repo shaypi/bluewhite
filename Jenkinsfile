@@ -1,5 +1,14 @@
 pipeline {
     agent any
+
+    environment {
+    App = 'abracadabra'
+    DOCKERHUB_REGISTRY = 'shaypi'
+    DOCKERHUB_REPOSITORY = 'abracadabra'
+    SHA = "${env.GITHUB_SHA}"
+    DOCKERHUB_CREDENTIALS = credentials('docker')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -42,5 +51,22 @@ pipeline {
                 sh 'black .'
             }
         }
+        stage('Docker Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS | docker login -u $DOCKERHUB_REGISTRY --password-stdin'
+            }
+        }
+        stage('Build, tag, and push image to Docker Hub') {
+            steps {
+                script {
+                    sh "docker build -t $App app/"
+                    sh "docker tag $App $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$SHA"
+                    sh "docker push $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$SHA"
+                    sh "docker tag $App $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$App-${env.BUILD_ID}"
+                    sh "docker push $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$App-${env.BUILD_ID}"
+                }
+            }
+        }
+    }
     }
 }
