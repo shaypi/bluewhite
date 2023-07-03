@@ -17,12 +17,12 @@ pipeline {
         }
         stage('Install prerequisites') {
             steps {
-                sh 'pip install --pre black'
+                sh 'pip install --pre --dev black'
             }
         }
         stage('Code Formatting') {
             steps {
-                sh 'pipenv run black .'
+                sh 'black .'
             }
         }
     }
