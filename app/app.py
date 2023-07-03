@@ -13,7 +13,7 @@ class FlaskAppTest(unittest.TestCase):
     def test_get_hostname(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Hostname:', response.data.decode())
+        self.assertIn(b'Hostname:', response.data)
 
     def tearDown(self):
         pass
