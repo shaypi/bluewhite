@@ -8,6 +8,12 @@ pipeline {
                           userRemoteConfigs: [[url: 'https://github.com/shaypi/bluewhite']]])
             }
         }
+        stage('Install Python 3') {
+            steps {
+                sh 'apt-get update'
+                sh 'apt-get install -y python3'
+            }
+        }
         stage('Install pip and pipenv') {
             steps {
                 sh 'python3 -m ensurepip --upgrade --default-pip'
