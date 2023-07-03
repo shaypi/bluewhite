@@ -5,6 +5,11 @@ pipeline {
         }
     }
     stages {
+        stage ('Install prerequisites') { 
+            steps { 
+                sh 'docker --version' 
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM',
