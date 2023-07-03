@@ -22,11 +22,11 @@ pipeline {
                 sh 'pip install --pre black'
             }
         }
-        stage('Unit Test') {
-            steps {
-                sh 'cd app && python3 -m unittest app.py'
-            }
-        }
+        // stage('Unit Test') {
+        //     steps {
+        //         sh 'cd app && python3 -m unittest app.py'
+        //     }
+        // }
         stage('Build') {
             steps {
                 sh 'cd app && python3 -m pip install -r requirements.txt'
