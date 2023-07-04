@@ -51,7 +51,7 @@ pipeline {
 
         stage('Docker Login') {
             steps {
-                withCredentials([string(credentialsID: 'docker', variable: 'abracadabra')]) {
+                withCredentials([string(credentialsId: 'docker', variable: 'abracadabra')]) {
                     sh "docker login -u shaypi -p ${abracadabra}"
                 }
             }
