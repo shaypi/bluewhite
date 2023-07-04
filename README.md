@@ -1,4 +1,4 @@
-# bluewhite
+# Bluewhite
 [![Apply/Destroy bluewhite eks](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-eks.yml/badge.svg)](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-eks.yml)
 [![CI CD](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-CICD.yml/badge.svg)](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-CICD.yml)
 [![Apply/Destroy bluewhite ecr](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-ecr.yml/badge.svg)](https://github.com/shaypi/bluewhite/actions/workflows/Bluewhite-ecr.yml)
