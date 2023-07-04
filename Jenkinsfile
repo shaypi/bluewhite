@@ -22,8 +22,7 @@ pipeline {
                 sh 'apt-get update'
                 sh 'apt-get install -y python3 python3-pip'
                 sh 'pip3 install --user pipenv'
-                sh 'pip3 install --upgrade Werkzeug'
-                sh 'pip3 install --upgrade flask werkzeug'
+                sh 'pip3 install --upgrade Werkzeug flask'
             }
         }
         stage('Install black') {
@@ -31,41 +30,36 @@ pipeline {
                 sh 'pip install --pre black'
             }
         }
-    //     // stage('Unit Test') {
-    //     //     steps {
-    //     //         sh 'cd app && python3 -m unittest app.py'
-    //     //     }
-    //     // }
-    //     stage('Build') {
-    //         steps {
-    //             sh 'cd app && python3 -m pip install -r requirements.txt'
-    //         }
-    //     }
-    //     // stage('Lint') {
-    //     //     steps {
-    //     //         sh 'black --check .'
-    //     //     }
-    //     // }
-    //     stage('Code Formatting') {
-    //         steps {
-    //             sh 'black .'
-    //         }
-    //     }
-    //     stage('Docker Login') {
-    //         steps {
-    //             sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-    //         }
-    //     }
-    //     stage('Build, tag, and push image to Docker Hub') {
-    //         steps {
-    //             script {
-    //                 sh "docker build -t $App app/"
-    //                 sh "docker tag $App $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$SHA"
-    //                 sh "docker push $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$SHA"
-    //                 sh "docker tag $App $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$App-${env.BUILD_ID}"
-    //                 sh "docker push $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$App-${env.BUILD_ID}"
-    //             }
-    //         }
-    //     }
+        stage('Unit Test') {
+            steps {
+                sh 'cd app && python3 -m unittest test.py'
+            }
+        }
+        stage('Lint') {
+            steps {
+                sh 'black --check .'
+            }
+        }
+        stage('Code Formatting') {
+            steps {
+                sh 'black .'
+            }
+        }
+        stage('Docker Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Build, tag, and push image to Docker Hub') {
+            steps {
+                script {
+                    sh "docker build -t $App app/"
+                    sh "docker tag $App $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$SHA"
+                    sh "docker push $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$SHA"
+                    sh "docker tag $App $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$App-${env.BUILD_ID}"
+                    sh "docker push $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$App-${env.BUILD_ID}"
+                }
+            }
+        }
     }
 }
