@@ -48,13 +48,11 @@ pipeline {
                 sh 'black --check .'
             }
         }
-
-        stage('Docker Login') {
-            steps {
-                withCredentials([string(credentialsID: 'docker', variable: 'abracadabra')]) {
-                    sh 'echo ${abracadabra} | docker login -u shaypi --password-stdin'
-                }
-            }
+        stage('Docker login') {      	
+            steps{                       	
+            sh 'echo $DOCKERHUB_CREDENTIALS | sudo docker login -u shaypi --password-stdin'                		
+            echo 'Login Completed'      
+            }           
         }
         stage('Build, tag, and push image to Docker Hub') {
             steps {
