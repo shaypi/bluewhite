@@ -1,4 +1,3 @@
-// properties(pipelineTriggers([githubPullRequests(events: [Open(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS')]))
 pipeline {
     agent any
 
@@ -16,8 +15,11 @@ pipeline {
         timestamps()
     }
 
+    // triggers {
+    //     githubPullRequests events: [Open(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS'
+    // }
     triggers {
-        githubPullRequests events: [Open(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS'
+        githubPullRequests()
     }
 
 
