@@ -16,24 +16,12 @@ pipeline {
     }
 
     triggers {
-        changeset([
-            // Trigger when there are changes in pull requests
-            [
-                // Filter pull request changes
-                extension: 'com.cloudbees.jenkins.GitHubPullRequestFilter',
-                includes: [
-                    branches: [
-                        prSourceBranch: '.*'
-                    ]
-                ],
-                excludes: [
-                    branches: [
-                        prTargetBranch: '.*'
-                    ]
-                ]
-            ]
-        ])
+        githubPullRequests(
+            events: [opened(), reopened(), synchronized()],
+            context: 'pullRequest'
+        )
     }
+
 
 
 
