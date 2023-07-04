@@ -1,3 +1,4 @@
+properties(pipelineTriggers([githubPullRequests(events: [Open(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS')]))
 pipeline {
     agent any
 
@@ -14,16 +15,6 @@ pipeline {
         skipDefaultCheckout()
         timestamps()
     }
-
-    triggers {
-    githubPullRequests(
-        events: [open, synchronize],
-        branches: [[name: 'main']],
-        spec: '*/**'
-    )
-}
-
-
 
     stages {
         stage('Checkout') {
