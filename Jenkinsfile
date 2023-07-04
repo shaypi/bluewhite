@@ -16,11 +16,10 @@ pipeline {
     }
     triggers {
         githubPush()
-        githubPullRequest(
+        githubPullRequests(
             events: [
-                pullRequestMerged(),
-                pullRequestClosed(),
-                pullRequestOpened()
+                [$class: "PullRequestEvent", event: "PULL_REQUEST_OPENED"],
+                [$class: "PullRequestEvent", event: "PULL_REQUEST_CLOSED"]
             ],
             triggerMode: 'HEAVY_HOOKS'
         )
