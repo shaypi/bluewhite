@@ -18,7 +18,7 @@ pipeline {
     triggers {
     githubPullRequests(
         branches: '*/main',
-        paths: ''
+        paths: 'app/**'
     )
 }
 
