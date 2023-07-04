@@ -17,8 +17,9 @@ pipeline {
     }
 
     triggers {
-        githubPullRequests(events: [githubPullRequest()])
+        githubPullRequests events: [Open(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS'
     }
+
 
     stages {
         stage('Checkout') {
