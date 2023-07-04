@@ -12,11 +12,16 @@ pipeline {
     options {
         disableConcurrentBuilds()
         skipDefaultCheckout()
+        timestamps()
     }
 
     triggers {
-        githubPullRequests()
-    }
+    githubPullRequests(
+        branches: '*/main',
+        paths: ''
+    )
+}
+
 
     stages {
         stage('Checkout') {
