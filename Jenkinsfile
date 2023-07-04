@@ -50,7 +50,7 @@ pipeline {
         }
         stage('Docker login') {      	
             steps{                       	
-            sh 'echo $DOCKERHUB_CREDENTIALS | sudo docker login -u shaypi --password-stdin'                		
+            sh 'echo $DOCKERHUB_CREDENTIALS | docker login -u shaypi --password-stdin'                		
             echo 'Login Completed'      
             }           
         }
