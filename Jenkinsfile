@@ -51,12 +51,11 @@ pipeline {
 
         stage('Docker Login') {
             steps {
-                withCredentials([string(credentialsId: 'docker', variable: 'abracadabra')]) {
-                    sh "docker login -u shaypi -p ${abracadabra}"
+                withCredentials([string(credentialsID: 'docker', variable: 'abracadabra')]) {
+                    sh 'echo ${abracadabra} | docker login -u shaypi --password-stdin'
                 }
             }
         }
-
         stage('Build, tag, and push image to Docker Hub') {
             steps {
                 script {
