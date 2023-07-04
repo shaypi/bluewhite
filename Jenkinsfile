@@ -17,10 +17,12 @@ pipeline {
 
     triggers {
     githubPullRequests(
-        branches: '*/main',
-        spec: 'app/**'
+        events: [open, synchronize],
+        branches: [[name: 'main']],
+        spec: '*/**'
     )
 }
+
 
 
     stages {
