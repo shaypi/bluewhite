@@ -19,7 +19,7 @@ pipeline {
     //     githubPullRequests events: [Open(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS'
     // }
     triggers {
-        githubPullRequests()
+        githubPullRequests(cron('* * * * *'), triggerEvents('opened', 'reopened', 'synchronize'), triggerContexts('pullRequest'))
     }
 
 
