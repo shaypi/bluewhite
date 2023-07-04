@@ -1,7 +1,5 @@
 import unittest
 from flask import Flask
-import socket
-from urllib.parse import urlsplit
 
 class FlaskAppTest(unittest.TestCase):
 
@@ -9,6 +7,10 @@ class FlaskAppTest(unittest.TestCase):
         self.app = Flask(__name__)
         self.app.config['TESTING'] = True
         self.client = self.app.test_client()
+
+        @self.app.route('/')
+        def index():
+            return 'Hostname: example.com'
 
     def test_get_hostname(self):
         response = self.client.get('/')
