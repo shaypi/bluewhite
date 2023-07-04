@@ -8,12 +8,14 @@ pipeline {
         SHA = "${env.GITHUB_SHA}"
         DOCKERHUB_CREDENTIALS = credentials('docker')
     }
+
     stages {
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/shaypi/bluewhite']]])
             }
         }
+
         stage('Install Python 3, pip, and pipenv') {
             steps {
                 sh 'apt-get update'
@@ -22,32 +24,38 @@ pipeline {
                 sh 'pip3 install --upgrade Werkzeug flask'
             }
         }
+
         stage('Install black') {
             steps {
                 sh 'pip3 install --pre black'
             }
         }
+
         stage('Unit Test') {
             steps {
                 sh 'cd app && python3 -m unittest test.py'
             }
         }
+
         stage('Code Formatting') {
             steps {
                 sh 'black .'
             }
         }
+
         stage('Lint') {
             steps {
                 sh 'black --check .'
             }
         }
+
         stage('Docker login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS | docker login -u shaypi --password-stdin'
                 echo 'Login Completed'
             }
         }
+
         stage('Build, tag, and push image to Docker Hub') {
             steps {
                 script {
@@ -59,9 +67,10 @@ pipeline {
                 }
             }
         }
+
         stage('Test Container') {
             steps {
-                sh "docker run $App-${env.BUILD_ID} python3 -m unittest test.py"
+                sh "docker run $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$App-${env.BUILD_ID} python3 -m unittest test.py"
             }
         }
     }
