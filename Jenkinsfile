@@ -17,10 +17,10 @@ pipeline {
 
     triggers {
         githubPullRequests(
-            events: [opened(), reopened(), synchronized()],
-            context: 'pullRequest'
+            events: [pullRequest()]
         )
     }
+
 
 
 
