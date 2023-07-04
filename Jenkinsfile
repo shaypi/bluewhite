@@ -1,13 +1,13 @@
 pipeline {
     agent any
 
-    // environment {
-    // App = 'abracadabra'
-    // DOCKERHUB_REGISTRY = 'shaypi'
-    // DOCKERHUB_REPOSITORY = 'abracadabra'
-    // SHA = "${env.GITHUB_SHA}"
-    // DOCKERHUB_CREDENTIALS = credentials('docker')
-    // }
+    environment {
+    App = 'abracadabra'
+    DOCKERHUB_REGISTRY = 'shaypi'
+    DOCKERHUB_REPOSITORY = 'abracadabra'
+    SHA = "${env.GITHUB_SHA}"
+    DOCKERHUB_CREDENTIALS = credentials('docker')
+    }
 
     stages {
         stage('Checkout') {
@@ -26,11 +26,11 @@ pipeline {
     //             sh 'pip3 install --upgrade flask werkzeug'
     //         }
     //     }
-    //     stage('Install black') {
-    //         steps {
-    //             sh 'pip install --pre black'
-    //         }
-    //     }
+        stage('Install black') {
+            steps {
+                sh 'pip install --pre black'
+            }
+        }
     //     // stage('Unit Test') {
     //     //     steps {
     //     //         sh 'cd app && python3 -m unittest app.py'
