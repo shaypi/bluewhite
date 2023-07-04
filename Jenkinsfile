@@ -14,10 +14,18 @@ pipeline {
         skipDefaultCheckout()
         timestamps()
     }
-
     triggers {
-        githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
+        githubPush()
+        githubPullRequest(
+            events: [githubPullRequestEvent('PULL_REQUEST_OPENED')],
+            triggerMode: 'HEAVY_HOOKS'
+        )
     }
+
+
+    // triggers {
+    //     githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
+    // }
 
 
     stages {
