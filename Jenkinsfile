@@ -35,14 +35,14 @@ pipeline {
                 sh 'cd app && python3 -m unittest test.py'
             }
         }
-        stage('Lint') {
-            steps {
-                sh 'black --check .'
-            }
-        }
         stage('Code Formatting') {
             steps {
                 sh 'black .'
+            }
+        }
+        stage('Lint') {
+            steps {
+                sh 'black --check .'
             }
         }
         stage('Docker Login') {
