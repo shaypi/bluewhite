@@ -9,6 +9,15 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('docker')
     }
 
+    options {
+        disableConcurrentBuilds()
+        skipDefaultCheckout()
+    }
+
+    triggers {
+        githubPullRequest()
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -18,18 +27,17 @@ pipeline {
 
         stage('Install Python 3, pip, and pipenv') {
             steps {
-                sh 'apt-get update'
-                sh 'apt-get install -y python3 python3-pip'
-                sh 'pip3 install --user pipenv'
-                sh 'pip3 install --upgrade Werkzeug flask'
+                script {
+                sh '''
+                    apt-get update && \
+                    apt-get install -y python3 python3-pip && \
+                    pip3 install --user pipenv && \
+                    pip3 install Werkzeug flask && \
+                    pip3 install --pre black
+                '''
+                }
             }
-        }
-
-        stage('Install black') {
-            steps {
-                sh 'pip3 install --pre black'
-            }
-        }
+        }  
 
         stage('Unit Test') {
             steps {
