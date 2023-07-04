@@ -18,8 +18,22 @@ pipeline {
         githubPush()
         githubPullRequests(
             events: [
-                [$class: "PullRequestEvent", event: "PULL_REQUEST_OPENED"],
-                [$class: "PullRequestEvent", event: "PULL_REQUEST_CLOSED"]
+                [
+                    $class: "PullRequestEvent",
+                    event: "PULL_REQUEST",
+                    actionFilter: [
+                        $class: "PullRequestActionFilter",
+                        action: "OPENED"
+                    ]
+                ],
+                [
+                    $class: "PullRequestEvent",
+                    event: "PULL_REQUEST",
+                    actionFilter: [
+                        $class: "PullRequestActionFilter",
+                        action: "CLOSED"
+                    ]
+                ]
             ],
             triggerMode: 'HEAVY_HOOKS'
         )
