@@ -15,16 +15,10 @@ pipeline {
         skipDefaultCheckout()
         timestamps()
     }
-    
+
     triggers {
-        githubPullRequestTrigger {
-            triggerMode = 'HEAVY_HOOKS'
-            permittedBranches = '*'
-            events {
-                open()
-            }
+        githubPullRequests events: [Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
         }
-    }
 
     stages {
         stage('Checkout') {
