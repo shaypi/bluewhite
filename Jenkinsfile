@@ -16,9 +16,7 @@ pipeline {
     }
 
     triggers {
-        githubPullRequests(
-            events: [pullRequest()]
-        )
+        pullRequest()
     }
 
 
