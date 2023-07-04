@@ -17,7 +17,7 @@ pipeline {
     }
 
     triggers {
-        githubPullRequest()
+        githubPullRequests(events: [githubPullRequest()])
     }
 
     stages {
