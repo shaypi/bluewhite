@@ -15,15 +15,13 @@ pipeline {
         timestamps()
     }
 
-    // triggers {
-    //     githubPullRequests events: [Open(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS'
-    // }
     triggers {
-        githubPullRequests()
+        githubPullRequests(
+            triggerEvents: ['opened', 'reopened', 'synchronize'],
+            triggerContexts: ['pullRequest'],
+            triggerMode: 'HEAVY_HOOKS'
+        )
     }
-    // triggers {
-    //     githubPullRequests(triggerEvents('opened', 'reopened', 'synchronize'), triggerContexts('pullRequest'))
-    // }
 
 
 
