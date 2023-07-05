@@ -16,9 +16,8 @@ pipeline {
     }
 
     triggers {
-        githubPullRequests events: [Open(), created(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS'
+        githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
     }
-
 
 
     stages {
