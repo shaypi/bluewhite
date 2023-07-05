@@ -5,7 +5,6 @@ pipeline {
         App = 'abracadabra'
         DOCKERHUB_REGISTRY = 'shaypi'
         DOCKERHUB_REPOSITORY = 'abracadabra'
-        SHA = "${env.GITHUB_SHA}"
         DOCKERHUB_CREDENTIALS = credentials('docker')
     }
 
@@ -14,6 +13,34 @@ pipeline {
         skipDefaultCheckout()
         timestamps()
     }
+
+    // triggers {
+    //     githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
+    // }
+    triggers {
+        GenericTrigger(
+                genericVariables: [
+                        [key: 'Commit_id', value: '$.pull_request.head.sha', defaultValue: 'None'],
+                        [key: 'PR_number', value: '$.number', defaultValue: 'None'],
+                        [key: 'Repository', value: '$.pull_request.base.repo.full_name', defaultValue: 'None'],
+                        [key: 'User', value: '$.pull_request.user.login', defaultValue: 'None'],
+                        [key: 'action', value: '$.action', defaultValue: 'None'],
+                        [key: 'Base_branch', value: '$.pull_request.base.ref', defaultValue: 'main']
+                ],
+
+                causeString: 'Triggered on $PR_number',
+
+
+                printContributedVariables: true,
+                printPostContent: true,
+
+                silentResponse: false,
+
+                regexpFilterText: '$action',
+                regexpFilterExpression: '(opened|reopened|synchronize)'
+        )
+    }
+
 
     stages {
         stage('Checkout') {
