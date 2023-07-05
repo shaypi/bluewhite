@@ -18,13 +18,16 @@ pipeline {
     //     githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
     // }
     triggers {
-        githubPullRequest {
-            events {
-                open()
-            }
-            branches('*/master')
-        }
-    }
+    genericTrigger(
+        causeString: 'New Pull Request',
+        genericVariables: [
+            [key: 'ACTION', value: '$.action'],
+            [key: 'PULL_REQUEST_NUMBER', value: '$.pull_request.number']
+        ],
+        token: 'pull-request-trigger-token',
+        printContributedVariables: true
+    )
+}
 
 
     stages {
