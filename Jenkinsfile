@@ -14,9 +14,6 @@ pipeline {
         timestamps()
     }
 
-    // triggers {
-    //     githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
-    // }
     triggers {
         GenericTrigger(
                 genericVariables: [
