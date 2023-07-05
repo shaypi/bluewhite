@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'docker pull cruizba/ubuntu-dind:latest'}
+        docker { image 'cruizba/ubuntu-dind:latest'}
     }
 
     environment {
@@ -53,7 +53,6 @@ pipeline {
                     pip3 install --user pipenv && \
                     pip3 install Werkzeug flask && \
                     pip3 install --pre black
-                    sleep 100000
                 '''
                 }
             }
