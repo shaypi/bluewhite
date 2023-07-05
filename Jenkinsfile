@@ -1,3 +1,4 @@
+properties([pipelineTriggers([githubPush()])])
 pipeline {
     agent any
 
@@ -14,35 +15,11 @@ pipeline {
         skipDefaultCheckout()
         timestamps()
     }
+
     triggers {
-        githubPush()
-        githubPullRequests(
-            events: [
-                [
-                    $class: "PullRequestEvent",
-                    event: "PULL_REQUEST",
-                    actionFilter: [
-                        $class: "PullRequestActionFilter",
-                        action: "OPENED"
-                    ]
-                ],
-                [
-                    $class: "PullRequestEvent",
-                    event: "PULL_REQUEST",
-                    actionFilter: [
-                        $class: "PullRequestActionFilter",
-                        action: "CLOSED"
-                    ]
-                ]
-            ],
-            triggerMode: 'HEAVY_HOOKS'
-        )
+        githubPullRequests events: [Open(), created(), commitChanged()], spec: '', triggerMode: 'HEAVY_HOOKS'
     }
 
-
-    // triggers {
-    //     githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
-    // }
 
 
     stages {
