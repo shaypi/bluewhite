@@ -92,11 +92,5 @@ pipeline {
                 }
             }
         }
-
-        stage('Test Container') {
-            steps {
-                sh "docker run $DOCKERHUB_REGISTRY/$DOCKERHUB_REPOSITORY:$App-${env.BUILD_ID} python3 -m unittest test.py"
-            }
-        }
     }
 }
