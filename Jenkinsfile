@@ -28,6 +28,7 @@ pipeline {
                 ],
 
                 causeString: 'Triggered on $PR_number',
+                token: 'abra',
                 printContributedVariables: true,
                 printPostContent: true,
                 silentResponse: false,
