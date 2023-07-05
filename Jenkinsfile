@@ -1,4 +1,3 @@
-properties([pipelineTriggers([githubPush()])])
 pipeline {
     agent any
 
@@ -6,7 +5,6 @@ pipeline {
         App = 'abracadabra'
         DOCKERHUB_REGISTRY = 'shaypi'
         DOCKERHUB_REPOSITORY = 'abracadabra'
-        SHA = "${env.GITHUB_SHA}"
         DOCKERHUB_CREDENTIALS = credentials('docker')
     }
 
@@ -16,8 +14,16 @@ pipeline {
         timestamps()
     }
 
+    // triggers {
+    //     githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
+    // }
     triggers {
-        githubPullRequests events: [commitChanged(), close(), Open()], spec: '', triggerMode: 'HEAVY_HOOKS'
+        githubPullRequest {
+            events {
+                open()
+            }
+            branches('*/master')
+        }
     }
 
 
